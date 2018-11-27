@@ -17,7 +17,9 @@ from sklearn.gaussian_process.kernels import DotProduct
 from sklearn.utils.testing \
     import (assert_greater, assert_array_less,
             assert_almost_equal, assert_equal, assert_raise_message,
-            assert_array_almost_equal, assert_array_equal)
+            assert_array_almost_equal, assert_array_equal,
+            assert_warns_message)
+from sklearn.exceptions import ConvergenceWarning
 
 
 def f(x):
@@ -360,3 +362,12 @@ def test_K_inv_reset(kernel):
     gpr2.predict(X2, return_std=True)
     # the value of K_inv should be independent of the first fit
     assert_array_equal(gpr._K_inv, gpr2._K_inv)
+
+
+def test_warning():
+    kernel = RBF(length_scale_bounds=[1e-5, 1e-3])
+    gpr = GaussianProcessRegressor(kernel=kernel)
+    assert_warns_message(ConvergenceWarning,
+                         "Some parameters of the chosen kernel have been "
+                         "optimized to one of their bounds. Please broaden"
+                         " the bounds and re-do the fit", gpr.fit, X, y)
