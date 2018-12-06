@@ -10,7 +10,8 @@ from scipy.optimize import approx_fprime
 import pytest
 
 from sklearn.gaussian_process import GaussianProcessClassifier
-from sklearn.gaussian_process.kernels import RBF, WhiteKernel, ConstantKernel as C
+from sklearn.gaussian_process.kernels import (RBF, WhiteKernel,
+                                              ConstantKernel as C)
 
 from sklearn.utils.testing import (assert_greater, assert_almost_equal,
                                    assert_array_equal, assert_warns_message)
